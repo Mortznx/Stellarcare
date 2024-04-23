@@ -5,8 +5,6 @@ import java.util.Scanner;
 
 public class Patient {
     public String st;
-    private File detailsFile;
-    private File reportFile;
     private LocalDate localDate;
     private String firstName;
     private String lastName;
@@ -26,14 +24,10 @@ public class Patient {
     private static int newId;
 
     public Patient() {
-        this.detailsFile = new File("details" + newId);
-        this.reportFile = new File("report" + newId);
     }
 
     public Patient(String st) {
         newId = 0;
-        this.detailsFile = new File("details" + newId);
-        this.reportFile = new File("report" + newId);
     }
 
     public Patient(String firstName , String lastName, String fatherName, boolean isMale,
@@ -192,6 +186,7 @@ public class Patient {
 
     public void writerDetailsFile(int id) {
         try {
+            File detailsFile =new File("details" + newId);
             if (detailsFile.createNewFile()) {
                 System.out.println("file created!");
             } else {
@@ -207,6 +202,7 @@ public class Patient {
 
     public void writerReportFile(int id, String text) {
         try {
+            File reportFile = new File("report" + newId);
             if (reportFile.createNewFile()) {
                 System.out.println("file created!");
             } else {
@@ -222,6 +218,7 @@ public class Patient {
 
     public void readerDetailsFile(int id) {
         try {
+            File detailsFile = new File("details" + newId);
             Scanner scanner = new Scanner(detailsFile);
             setFirstName(scanner.nextLine());
             setLastName(scanner.nextLine());
@@ -245,6 +242,7 @@ public class Patient {
     }
 
     public void changeCheckUpIng(int id, int count) {
+        File detailsFile = new File("details" + newId);
         String information = null;
         try {
             Scanner scan = new Scanner(detailsFile);
@@ -262,11 +260,12 @@ public class Patient {
     }
 
     public void writingNewDetailsFile(int id, String input) {
+        File detailsFile = new File("details" + newId);
         if (detailsFile.exists()) {
-            this.detailsFile.delete();
+            detailsFile.delete();
         }
         try {
-            this.detailsFile.createNewFile();
+            detailsFile.createNewFile();
             FileWriter writer = new FileWriter("details" + id);
             writer.write(input);
             writer.close();
@@ -276,6 +275,7 @@ public class Patient {
     }
 
     public String readerReportFile(int id) {
+        File reportFile = new File("report" + newId);
         String answer = null;
         try {
             Scanner scanner = new Scanner(reportFile);

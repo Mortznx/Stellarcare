@@ -6,6 +6,7 @@ public class Doctor extends Patient {
     private int patientId;
     private String doctorName;
     private String unit;
+    private int staffNumber;
     private static ArrayList<String> messege;
     private static ArrayList<Integer> checking;
     private int bedNumber;
@@ -14,9 +15,10 @@ public class Doctor extends Patient {
         messege = new ArrayList<>();
     }
 
-    public Doctor(int grade, String doctorName, String unit, int id) {
+    public Doctor(int staffNumber,int grade, String doctorName, String unit, int id) {
         super();
-        this.sender = new Sender(grade, doctorName, unit, id);
+        this.sender = new Sender(staffNumber,grade, doctorName, unit, id);
+        this.staffNumber = staffNumber;
         this.grade = grade;
         this.patientId = 0;
         this.doctorName = doctorName;

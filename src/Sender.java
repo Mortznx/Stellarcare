@@ -7,6 +7,7 @@ import java.util.Date;
 
 public class Sender {
     private int unitNum;
+    private int staffNumber;
     private String doctorName;
     private String unit;
     private int id;
@@ -22,7 +23,8 @@ public class Sender {
     private CTScan ctScan;
     private File file;
 
-    public Sender(int unitNum, String doctorName, String unit, int id) {
+    public Sender(int staffNumber,int unitNum, String doctorName, String unit, int id) {
+        this.staffNumber = staffNumber;
         this.unitNum = unitNum;
         this.doctorName = doctorName;
         this.unit = unit;
