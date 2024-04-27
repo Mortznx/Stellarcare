@@ -2,12 +2,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CheckUp {
-    private HashMap<Integer, ArrayList<String>> beds;
+    private HashMap<Integer, Patient> beds;
     private ArrayList<Integer> morning = new ArrayList<>();
     private ArrayList<Integer> afternoon = new ArrayList<>();
     private ArrayList<Integer> night = new ArrayList<>();
 
-    public CheckUp(HashMap<Integer, ArrayList<String>> a) {
+    public CheckUp(HashMap<Integer, Patient> a) {
         this.beds = a;
     }
 
@@ -16,7 +16,7 @@ public class CheckUp {
             if (this.beds.get(i) == null) {
                 continue;
             }
-            switch (Integer.parseInt(this.beds.get(i).get(14))) {
+            switch (this.beds.get(i).getGetCheckUp()) {
                 case 3:
                     this.morning.add(i);
                     this.afternoon.add(i);
@@ -46,7 +46,7 @@ public class CheckUp {
     public ArrayList<Integer> checkUp0() {
         ArrayList<Integer> list = new ArrayList<>();
         for (int i = 0; i < this.beds.size(); i++) {
-            if (Integer.parseInt(this.beds.get(i).get(14)) == 0)
+            if (this.beds.get(i).getGetCheckUp() == 0)
                 list.add(i);
         }
         return list;

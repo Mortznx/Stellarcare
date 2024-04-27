@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 public class CCU extends Patient {
     private final static int countBeds = 100;
-    private static HashMap<Integer, ArrayList<String>> beds;
+    private static HashMap<Integer, Patient> beds;
     private Emergency emergency;
 
     public CCU() {
@@ -11,13 +11,13 @@ public class CCU extends Patient {
     }
 
     public CCU(String string) {
-        this.beds = new HashMap<>();
+        beds = new HashMap<>();
         this.emergency = new Emergency();
     }
 
     public int isEmptyBeds() {
         for (int i = 0; i < this.countBeds; i++) {
-            if (this.beds.get(i).equals(null)) {
+            if (beds.containsKey(i)) {
                 return i;
             }
         }
@@ -25,53 +25,51 @@ public class CCU extends Patient {
     }
 
     public int emptyBeds() {
-        return (this.countBeds - this.beds.size());
+        return (this.countBeds - beds.size());
     }
 
     public boolean isEmpty(int input) {
-        if (beds.get(input) == null)
+        if (beds.containsKey(input))
             return true;
         else
             return false;
     }
 
-    public ArrayList<String> getPatientInformation(int num) {
-        return this.beds.get(num);
+    public Patient getPatientInformation(int num) {
+        return beds.get(num);
     }
 
-    public String addPatient(String input) {
+    public void addPatient(Patient patient) {
+        //افزودن بیمار
         if (isEmptyBeds() == -1) {
-            return ("There are no empty beds!");
+            System.out.println("There are no empty beds!");
         } else {
-            beds.put(isEmptyBeds(), new ArrayList<>());
-            ArrayList<String> info = beds.get(isEmptyBeds());
-            String[] strings = input.split("\n");
-            for (int i = 0; i < strings.length; i++) {
-                info.add(strings[i]);
-            }
+            beds.put(isEmptyBeds(), patient);
         }
-        return null;
     }
 
-    public String addPatient(ArrayList<String> input) {
+    public void addPatient(ArrayList<String> input) {
         if (isEmptyBeds() == -1) {
-            return ("There are no empty beds!");
+            System.out.println("There are no empty beds!");
         } else {
-            beds.put(isEmptyBeds(), input);
+            Patient patient = new Patient();
+            patient.arrayToStrings(input);
+            beds.put(isEmptyBeds(), patient);
         }
-        return null;
+
     }
 
     public void changPatientBed(int from, int to) {
-        if (this.beds.get(from) == null) {
+        //این متد توسط پرستار دسترسی داره ولی یه ایرادی داره که هنگام تغییر تخت باید توی لیست دکتر این تغییرات لحاظ شه
+        //تعویض تخت بیمار
+        if (beds.containsKey(from)) {
             System.out.println("error");
-        } else if (this.beds.get(to) != null) {
+        } else if (beds.containsKey(to)) {
             System.out.println("error");
         } else {
-            beds.put(to, new ArrayList<>());
-            ArrayList<String> info = this.beds.get(from);
-            beds.put(from, null);
-            beds.put(to, info);
+            Patient patient = beds.get(from);
+            beds.remove(from);
+            beds.put(to,patient);
         }
     }
 
@@ -79,15 +77,15 @@ public class CCU extends Patient {
         if (this.beds.get(num) == null) {
             System.out.println("error");
         } else {
-            this.beds.put(num, null);
+            beds.remove(num);
         }
     }
 
     public int searchPatient(String name) {
         for (int i = 0; i < countBeds; i++) {
-            if (beds.get(i).get(0).equals(name))
+            if (beds.get(i).getFirstName().equals(name))
                 return i;
-            else if (beds.get(i).get(1).equals(name))
+            else if (beds.get(i).getLastName().equals(name))
                 return i;
         }
         return -1;
@@ -98,43 +96,43 @@ public class CCU extends Patient {
         if (!beds.containsKey(num)) {
             return false;
         }
-        ArrayList<String> information = beds.get(num);
+        Patient patient = new Patient();
         switch (newUnit) {
             case "Neurology":
                 Neurology neurology = new Neurology();
                 super.readerDetailsFile(num);
-                neurology.addPatient(super.toString());
-                super.writerReportFile(Integer.parseInt(getPatientInformation(num).get(13)), "the patient was transferred to unit " + newUnit);
+                neurology.addPatient(patient);
+                super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
                 beds.remove(num);
                 return true;
             case "ICU":
                 ICU icu = new ICU();
                 super.readerDetailsFile(num);
-                icu.addPatient(super.toString());
-                super.writerReportFile(Integer.parseInt(getPatientInformation(num).get(13)), "the patient was transferred to unit " + newUnit);
+                icu.addPatient(patient);
+                super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
                 beds.remove(num);
                 return true;
             case "NICU":
                 NICU nicu = new NICU();
                 super.readerDetailsFile(num);
-                nicu.addPatient(super.toString());
-                super.writerReportFile(Integer.parseInt(getPatientInformation(num).get(13)), "the patient was transferred to unit " + newUnit);
+                nicu.addPatient(patient);
+                super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
                 beds.remove(num);
                 return true;
             case "PICU":
                 PICU picu = new PICU();
                 super.readerDetailsFile(num);
-                picu.addPatient(super.toString());
-                super.writerReportFile(Integer.parseInt(getPatientInformation(num).get(13)), "the patient was transferred to unit " + newUnit);
+                picu.addPatient(patient);
+                super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
                 beds.remove(num);
                 return true;
         }
         return false;
     }
 
-    public static void makeBeds() {
+    /*public static void makeBeds() {
         for (int i = 0; i < countBeds; i++) {
             beds.putIfAbsent(i, null);
         }
-    }
+    }*/
 }

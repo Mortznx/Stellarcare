@@ -45,7 +45,7 @@ public class Sender {
         this.doctor = new Doctor();
     }
 
-    public ArrayList<String> getPatientInfo(int num) {
+    public Patient getPatientInfo(int num) {
         return switch (unitNum) {
             case 0 -> emergency.getPatientInformation(num);
             case 1 -> icu.getPatientInformation(num);
@@ -62,8 +62,8 @@ public class Sender {
             if (!file.exists()) {
                 file.createNewFile();
             }
-            FileWriter writer = new FileWriter("doctor" + this.doctorName + this.unit + this.id);
-            writer.write(now() + text);
+            FileWriter writer = new FileWriter("doctor" + this.doctorName + this.unit + this.id,true);
+            writer.write(now() + text+"\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -125,6 +125,7 @@ public class Sender {
         }
     }
 
+
     public boolean changUnit(int num, String newUnit) {
         if (changeUnitHandler(newUnit)) {
             return switch (unitNum) {
@@ -153,16 +154,19 @@ public class Sender {
     }
 
     public void getTest(int num, String request, String test) {
+        ArrayList<String> info = new Patient().toArray(getPatientInfo(num));
         switch (test) {
             case "CTScan":
-                ctScan.newRequest(getPatientInfo(num), request);
+                ctScan.newRequest(info , request);
             case "":
         }
     }
 
     public void getOperating(int num, String string) {
-        ArrayList<String> info = getPatientInfo(num);
+        ArrayList<String> info = new Patient().toArray(getPatientInfo(num));
+        Patient patientInfo = new Patient();
+
         patient.arrayToStrings(info);
-        this.operatingRoom.addRequest(Integer.parseInt(getPatientInfo(num).get(13)), patient.toString());
+        this.operatingRoom.addRequest(getPatientInfo(num).getId(), patient.toString());
     }
 }

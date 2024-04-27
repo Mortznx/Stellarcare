@@ -186,13 +186,13 @@ public class Patient {
 
     public void writerDetailsFile(int id) {
         try {
-            File detailsFile =new File("details" + newId);
+            File detailsFile =new File("details" + id+".txt");
             if (detailsFile.createNewFile()) {
                 System.out.println("file created!");
             } else {
                 System.out.println();
             }
-            FileWriter fileWriter = new FileWriter("details" + id);
+            FileWriter fileWriter = new FileWriter("details" + id+".txt");
             fileWriter.write(toString());
             fileWriter.close();
         } catch (IOException e) {
@@ -202,14 +202,14 @@ public class Patient {
 
     public void writerReportFile(int id, String text) {
         try {
-            File reportFile = new File("report" + newId);
+            File reportFile = new File("report" + id+ ".txt");
             if (reportFile.createNewFile()) {
                 System.out.println("file created!");
             } else {
                 System.out.println();
             }
-            FileWriter fileWriter = new FileWriter("report" + id);
-            fileWriter.write(getDate() + text);
+            FileWriter fileWriter = new FileWriter("report" + id+".txt",true);
+            fileWriter.write(getDate() + text+"\n");
             fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -218,7 +218,7 @@ public class Patient {
 
     public void readerDetailsFile(int id) {
         try {
-            File detailsFile = new File("details" + newId);
+            File detailsFile = new File("details" + id+".txt");
             Scanner scanner = new Scanner(detailsFile);
             setFirstName(scanner.nextLine());
             setLastName(scanner.nextLine());
@@ -242,17 +242,19 @@ public class Patient {
     }
 
     public void changeCheckUpIng(int id, int count) {
-        File detailsFile = new File("details" + newId);
-        String information = null;
+        File detailsFile = new File("details" + id+".txt");
+        String information = "";
         try {
             Scanner scan = new Scanner(detailsFile);
-            for (int i = 0; i < 15; i++) {
+            int i = 0;
+            while (scan.hasNextLine()) {
                 if (i == 14) {
                     information += String.valueOf(count);
                     writingNewDetailsFile(id, information);
                 } else {
                     information += scan.nextLine();
                 }
+                i++;
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -260,14 +262,14 @@ public class Patient {
     }
 
     public void writingNewDetailsFile(int id, String input) {
-        File detailsFile = new File("details" + newId);
+        File detailsFile = new File("details" + id+".txt");
         if (detailsFile.exists()) {
             detailsFile.delete();
         }
         try {
             detailsFile.createNewFile();
-            FileWriter writer = new FileWriter("details" + id);
-            writer.write(input);
+            FileWriter writer = new FileWriter("details" + id+".txt",true);
+            writer.write(input+"\n");
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -275,19 +277,28 @@ public class Patient {
     }
 
     public String readerReportFile(int id) {
-        File reportFile = new File("report" + newId);
-        String answer = null;
+        File reportFile = new File("report" + id+".txt");
+        StringBuffer answer = null;
         try {
             Scanner scanner = new Scanner(reportFile);
             while (scanner.hasNextLine()) {
-                answer += scanner.nextLine();
+                answer.append(scanner.nextLine());
             }
+            scanner.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return answer;
+        return answer.toString();
     }
 
+    public ArrayList<String> toArray(Patient patient) {
+        String[] string = toString().split("\n");
+        ArrayList<String> info = new ArrayList<>();
+        for (String st : string) {
+            info.add(st);
+        }
+        return info;
+    }
     public void arrayToStrings(ArrayList<String> input) {
         setFirstName(input.get(0));
         setLastName(input.get(1));

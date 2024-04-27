@@ -37,7 +37,7 @@ public class Doctor extends Patient {
     }
 
     public void getInformation(int num) {
-        arrayToStrings(sender.getPatientInfo(num));
+        sender.getPatientInfo(num);
     }
 
     public String getReports(int num) {

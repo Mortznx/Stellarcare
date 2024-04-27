@@ -1,10 +1,11 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 
 public class Neurology extends Patient {
     private final static int countBed = 100;
-    private static HashMap<Integer, ArrayList<String>> beds;
+    private static HashMap<Integer, Patient> beds;
     private ArrayList<Integer> morning = new ArrayList<>();
     private ArrayList<Integer> afternoon = new ArrayList<>();
     private ArrayList<Integer> night = new ArrayList<>();
@@ -15,13 +16,15 @@ public class Neurology extends Patient {
 
     public Neurology(String st) {
         super();
-        this.beds = new HashMap<>();
+        beds = new HashMap<>();
     }
 
     public int isEmptyBeds() {
         //اولین تخت خالی رو میگه و اگه تخت خالی نداشته باشیم -1 میده
         for (int i = 0; i < countBed; i++) {
-            if (this.beds.get(i).equals(null)) {
+            if (beds.containsKey(i)) {
+                continue;
+            } else {
                 return i;
             }
         }
@@ -34,28 +37,19 @@ public class Neurology extends Patient {
     }
 
     public boolean isEmpty(int input) {
-        if (beds.get(input) == null)
-            return true;
-        else
-            return false;
+        return (beds.containsKey(input));
     }
 
-    public ArrayList<String> getPatientInformation(int num) {
-        return this.beds.get(num);
+    public Patient getPatientInformation(int num) {
+        return beds.get(num);
     }
 
-    public void addPatient(String input) {
+    public void addPatient(Patient patient) {
         //افزودن بیمار
         if (isEmptyBeds() == -1) {
             System.out.println("There are no empty beds!");
         } else {
-            super.writerDetailsFile(super.getNewId());
-            beds.put(isEmptyBeds(), new ArrayList<>());
-            ArrayList<String> info = beds.get(isEmptyBeds());
-            String[] strings = input.split("\n");
-            for (int i = 0; i < strings.length; i++) {
-                info.add(strings[i]);
-            }
+            beds.put(isEmptyBeds(), patient);
         }
     }
 
@@ -64,42 +58,47 @@ public class Neurology extends Patient {
         if (isEmptyBeds() == -1) {
             System.out.println("There are no empty beds!");
         } else {
-            beds.put(isEmptyBeds(), input);
+            Patient patient = new Patient();
+            patient.arrayToStrings(input);
+            beds.put(isEmptyBeds(), patient);
         }
     }
 
     public void changPatientBed(int from, int to) {
         //این متد توسط پرستار دسترسی داره ولی یه ایرادی داره که هنگام تغییر تخت باید توی لیست دکتر این تغییرات لحاظ شه
         //تعویض تخت بیمار
-        if (this.beds.get(from) == null) {
+        if (beds.containsKey(from)) {
             System.out.println("error");
-        } else if (beds.get(to) != null) {
+        } else if (beds.containsKey(to)) {
             System.out.println("error");
         } else {
-            beds.put(to, new ArrayList<>());
-            ArrayList<String> info = this.beds.get(from);
-            beds.put(from, null);
-            beds.put(to, info);
+            Patient patient = beds.get(from);
+            beds.remove(from);
+            beds.put(to,patient);
         }
     }
 
     public void discharge(int num) {
         //خالی کردن تخت
         Date date = new Date();
-        if (beds.get(num) == null) {
+        if (!beds.containsKey(num)) {
             System.out.println("error");
         } else {
-            beds.put(num, null);
-            super.writerReportFile(Integer.parseInt(getPatientInformation(num).get(13)), "the patient was dischrged in :"
+            beds.remove(num);
+            super.writerReportFile(getPatientInformation(num).getId(), "the patient was dischrged in :"
                     + date.getYear() + "/" + date.getMonth() + "/" + date.getDay());
         }
     }
 
     public int searchPatient(String name) {
         for (int i = 0; i < countBed; i++) {
-            if (beds.get(i).get(0).equals(name))
+            if (beds.isEmpty())
+                break;
+            if (!beds.containsKey(i))
+                continue;
+            if (beds.get(i).getFirstName().equals(name))
                 return i;
-            else if (beds.get(i).get(1).equals(name))
+            else if (beds.get(i).getLastName().equals(name))
                 return i;
         }
         return -1;
@@ -110,46 +109,53 @@ public class Neurology extends Patient {
         if (!beds.containsKey(num)) {
             return false;
         }
-        ArrayList<String> information = beds.get(num);
+        Patient patient = new Patient();
         switch (newUnit) {
+            case "Neurology":
+                Neurology neurology = new Neurology();
+                super.readerDetailsFile(num);
+                neurology.addPatient(patient);
+                super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
+                beds.remove(num);
+                return true;
             case "ICU":
                 ICU icu = new ICU();
                 super.readerDetailsFile(num);
-                icu.addPatient(super.toString());
-                super.writerReportFile(Integer.parseInt(getPatientInformation(num).get(13)), "the patient was transferred to unit " + newUnit);
+                icu.addPatient(patient);
+                super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
                 beds.remove(num);
                 return true;
             case "CCU":
                 CCU ccu = new CCU();
                 super.readerDetailsFile(num);
-                ccu.addPatient(super.toString());
-                super.writerReportFile(Integer.parseInt(getPatientInformation(num).get(13)), "the patient was transferred to unit " + newUnit);
+                ccu.addPatient(patient);
+                super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
                 beds.remove(num);
                 return true;
             case "NICU":
                 NICU nicu = new NICU();
                 super.readerDetailsFile(num);
-                nicu.addPatient(super.toString());
-                super.writerReportFile(Integer.parseInt(getPatientInformation(num).get(13)), "the patient was transferred to unit " + newUnit);
+                nicu.addPatient(patient);
+                super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
                 beds.remove(num);
                 return true;
             case "PICU":
                 PICU picu = new PICU();
                 super.readerDetailsFile(num);
-                picu.addPatient(super.toString());
-                super.writerReportFile(Integer.parseInt(getPatientInformation(num).get(13)), "the patient was transferred to unit " + newUnit);
+                picu.addPatient(patient);
+                super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
                 beds.remove(num);
                 return true;
         }
         return false;
     }
 
-    public static void makeBeds() {
+    /*public static void makeBeds() {
         //اضافه کردن تخت به بخش
         for (int i = 0; i < countBed; i++) {
-            beds.putIfAbsent(i, null);
+            beds.putIfAbsent(i, new ArrayList<>());
         }
-    }
+    }*/
 
     public void getCheckUp() {
         //نیازه که هر 24 ساعت یکبار فراخوانی بشه
