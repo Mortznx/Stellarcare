@@ -130,11 +130,15 @@ public class ICU extends Patient {
                 super.readerDetailsFile(getPatientInformation(num).getId());
                 internalMedicine.addPatient(patient);
                 super.writerReportFile(getPatientInformation(num).getId(),"the patient was transferred to unit " + newUnit);
+                beds.remove(num);
+                return true;
             case "Obstetrics" :
                 Obstetrics obstetrics = new Obstetrics();
                 super.readerDetailsFile(getPatientInformation(num).getId());
                 obstetrics.addPatient(patient);
                 super.writerReportFile(getPatientInformation(num).getId(),"the patient was transferred to unit " + newUnit);
+                beds.remove(num);
+                return true;
         }
         return false;
     }

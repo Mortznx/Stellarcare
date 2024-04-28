@@ -100,30 +100,44 @@ public class PICU extends Patient {
         switch (newUnit) {
             case "Neurology":
                 Neurology neurology = new Neurology();
-                super.readerDetailsFile(num);
+                super.readerDetailsFile(getPatientInformation(num).getId());
                 neurology.addPatient(patient);
-                super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
+                super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit "
+                        + newUnit);
                 beds.remove(num);
                 return true;
             case "ICU":
                 ICU icu = new ICU();
-                super.readerDetailsFile(num);
+                super.readerDetailsFile(getPatientInformation(num).getId());
                 icu.addPatient(patient);
-                super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
+                super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit "
+                        + newUnit);
                 beds.remove(num);
                 return true;
             case "NICU":
                 NICU nicu = new NICU();
-                super.readerDetailsFile(num);
+                super.readerDetailsFile(getPatientInformation(num).getId());
                 nicu.addPatient(patient);
-                super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
+                super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit "
+                        + newUnit);
                 beds.remove(num);
                 return true;
             case "Internal medicine" :
                 InternalMedicine internalMedicine = new InternalMedicine();
-                super.readerDetailsFile(num);
+                super.readerDetailsFile(getPatientInformation(num).getId());
                 internalMedicine.addPatient(patient);
-                super.writerReportFile(getPatientInformation(num).getId(),"the patient was transferred to unit " + newUnit);
+                super.writerReportFile(getPatientInformation(num).getId(),"the patient was transferred to unit "
+                        + newUnit);
+                beds.remove(num);
+                return true;
+            case "Obstetrics" :
+                Obstetrics obstetrics = new Obstetrics();
+                super.readerDetailsFile(getPatientInformation(num).getId());
+                obstetrics.addPatient(patient);
+                super.writerReportFile(getPatientInformation(num).getId(),"the patient was transferred to unit "
+                        + newUnit);
+                beds.remove(num);
+                return true;
         }
         return false;
     }

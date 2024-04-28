@@ -187,8 +187,10 @@ public class Patient {
     public void writerDetailsFile(int id) {
         try {
             File detailsFile =new File("details" + id+".txt");
-            if (detailsFile.createNewFile()) {
-                System.out.println("file created!");
+            if (!detailsFile.exists()) {
+                if (detailsFile.createNewFile()) {
+                    System.out.println("file created!");
+                }
             } else {
                 System.out.println();
             }

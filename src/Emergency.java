@@ -50,6 +50,8 @@ public class Emergency extends Patient {
             System.out.println("There are no empty beds!");
         } else {
             beds.put(isEmptyBeds(), patient);
+            // توی خط پایین باید newId بدیم برای تشکیل پرونده
+            // super.writerDetailsFile(newId,patient);
         }
     }
 
@@ -158,6 +160,8 @@ public class Emergency extends Patient {
                 super.readerDetailsFile(getPatientInformation(num).getId());
                 obstetrics.addPatient(patient);
                 super.writerReportFile(getPatientInformation(num).getId(),"the patient was transferred to unit " + newUnit);
+                beds.remove(num);
+                return true;
         }
         return false;
     }
