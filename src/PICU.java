@@ -119,13 +119,11 @@ public class PICU extends Patient {
                 super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
                 beds.remove(num);
                 return true;
-            case "PICU":
-                PICU picu = new PICU();
+            case "Internal medicine" :
+                InternalMedicine internalMedicine = new InternalMedicine();
                 super.readerDetailsFile(num);
-                picu.addPatient(patient);
-                super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
-                beds.remove(num);
-                return true;
+                internalMedicine.addPatient(patient);
+                super.writerReportFile(getPatientInformation(num).getId(),"the patient was transferred to unit " + newUnit);
         }
         return false;
     }

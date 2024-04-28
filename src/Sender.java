@@ -1,4 +1,3 @@
-import java.beans.DesignMode;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,7 +18,9 @@ public class Sender {
     private CCU ccu;
     private NICU nicu;
     private PICU picu;
-    private OperatingRoom operatingRoom;
+    private InternalMedicine internalMedicine;
+    private Obstetrics obstetrics;
+    private Surgical surgical;
     private CTScan ctScan;
     private File file;
 
@@ -36,7 +37,9 @@ public class Sender {
         this.ccu = new CCU();
         this.nicu = new NICU();
         this.picu = new PICU();
-        this.operatingRoom = new OperatingRoom();
+        this.internalMedicine = new InternalMedicine();
+        this.obstetrics = new Obstetrics();
+        this.surgical = new Surgical();
         this.ctScan = new CTScan();
         this.file = new File("doctor" + doctorName + unit + id);
     }
@@ -47,12 +50,14 @@ public class Sender {
 
     public Patient getPatientInfo(int num) {
         return switch (unitNum) {
-            case 0 -> emergency.getPatientInformation(num);
-            case 1 -> icu.getPatientInformation(num);
-            case 2 -> ccu.getPatientInformation(num);
-            case 3 -> nicu.getPatientInformation(num);
-            case 4 -> picu.getPatientInformation(num);
-            case 5 -> neurology.getPatientInformation(num);
+            case 0 -> this.emergency.getPatientInformation(num);
+            case 1 -> this.icu.getPatientInformation(num);
+            case 2 -> this.ccu.getPatientInformation(num);
+            case 3 -> this.nicu.getPatientInformation(num);
+            case 4 -> this.picu.getPatientInformation(num);
+            case 5 -> this.neurology.getPatientInformation(num);
+            case 6 -> this.internalMedicine.getPatientInformation(num);
+            case 7 -> this.obstetrics.getPatientInformation(num);
             default -> null;
         };
     }
@@ -122,6 +127,10 @@ public class Sender {
                 this.nicu.discharge(num);
             case 4:
                 this.picu.discharge(num);
+            case 5:
+                this.internalMedicine.discharge(num);
+            case 6:
+                this.obstetrics.discharge(num);
         }
     }
 
@@ -134,6 +143,8 @@ public class Sender {
                 case 2 -> ccu.changeUnits(num, newUnit);
                 case 3 -> nicu.changeUnits(num, newUnit);
                 case 4 -> picu.changeUnits(num, newUnit);
+                case 5 -> internalMedicine.changeUnits(num,newUnit);
+                case 6 -> obstetrics.changeUnits(num,newUnit);
                 default -> false;
             };
         } else {
@@ -143,12 +154,14 @@ public class Sender {
 
     public boolean changeUnitHandler(String newUnit) {
         return switch (newUnit) {
-            case "neurology" -> neurology.isEmptyBeds() != -1;
-            case "emergency" -> emergency.isEmptyBeds() != -1;
-            case "icu" -> icu.isEmptyBeds() != -1;
-            case "ccu" -> ccu.isEmptyBeds() != -1;
-            case " nicu" -> nicu.isEmptyBeds() != -1;
-            case "picu" -> picu.isEmptyBeds() != -1;
+            case "neurology" -> this.neurology.isEmptyBeds() != -1;
+            case "emergency" -> this.emergency.isEmptyBeds() != -1;
+            case "icu" -> this.icu.isEmptyBeds() != -1;
+            case "ccu" -> this.ccu.isEmptyBeds() != -1;
+            case " nicu" -> this.nicu.isEmptyBeds() != -1;
+            case "picu" -> this.picu.isEmptyBeds() != -1;
+            case "internal medicine" -> this.internalMedicine.isEmptyBeds() != -1;
+            case "obstetrics" -> this.obstetrics.isEmptyBeds() != -1;
             default -> false;
         };
     }
@@ -167,6 +180,6 @@ public class Sender {
         Patient patientInfo = new Patient();
 
         patient.arrayToStrings(info);
-        this.operatingRoom.addRequest(getPatientInfo(num).getId(), patient.toString());
+        this.surgical.addRequest(getPatientInfo(num).getId(), patient.toString());
     }
 }

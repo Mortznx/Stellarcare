@@ -1,14 +1,14 @@
 import java.util.ArrayList;
 
-public class OperatingRoom {
+public class Surgical {
     private ArrayList<String> request;
     private ArrayList<String> surgery;
 
-    public OperatingRoom() {
+    public Surgical() {
 
     }
 
-    public OperatingRoom(String st) {
+    public Surgical(String st) {
         this.request = new ArrayList<>();
     }
 
