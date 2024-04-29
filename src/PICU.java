@@ -97,6 +97,7 @@ public class PICU extends Patient {
             return false;
         }
         Patient patient = new Patient();
+        Billing billing = new Billing();
         switch (newUnit) {
             case "Neurology":
                 Neurology neurology = new Neurology();
@@ -105,6 +106,7 @@ public class PICU extends Patient {
                 super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit "
                         + newUnit);
                 beds.remove(num);
+                billing.changUnit(patient.getId(),"PICU",newUnit);
                 return true;
             case "ICU":
                 ICU icu = new ICU();
@@ -113,6 +115,7 @@ public class PICU extends Patient {
                 super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit "
                         + newUnit);
                 beds.remove(num);
+                billing.changUnit(patient.getId(),"PICU",newUnit);
                 return true;
             case "NICU":
                 NICU nicu = new NICU();
@@ -121,6 +124,7 @@ public class PICU extends Patient {
                 super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit "
                         + newUnit);
                 beds.remove(num);
+                billing.changUnit(patient.getId(),"PICU",newUnit);
                 return true;
             case "Internal medicine" :
                 InternalMedicine internalMedicine = new InternalMedicine();
@@ -129,6 +133,7 @@ public class PICU extends Patient {
                 super.writerReportFile(getPatientInformation(num).getId(),"the patient was transferred to unit "
                         + newUnit);
                 beds.remove(num);
+                billing.changUnit(patient.getId(),"PICU",newUnit);
                 return true;
             case "Obstetrics" :
                 Obstetrics obstetrics = new Obstetrics();
@@ -137,6 +142,7 @@ public class PICU extends Patient {
                 super.writerReportFile(getPatientInformation(num).getId(),"the patient was transferred to unit "
                         + newUnit);
                 beds.remove(num);
+                billing.changUnit(patient.getId(),"PICU",newUnit);
                 return true;
         }
         return false;

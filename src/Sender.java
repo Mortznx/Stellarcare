@@ -18,6 +18,7 @@ public class Sender {
     private CCU ccu;
     private NICU nicu;
     private PICU picu;
+    private Billing billing;
     private InternalMedicine internalMedicine;
     private Obstetrics obstetrics;
     private Surgical surgical;
@@ -37,6 +38,7 @@ public class Sender {
         this.ccu = new CCU();
         this.nicu = new NICU();
         this.picu = new PICU();
+        this.billing = new Billing();
         this.internalMedicine = new InternalMedicine();
         this.obstetrics = new Obstetrics();
         this.surgical = new Surgical();
@@ -132,6 +134,7 @@ public class Sender {
             case 6:
                 this.obstetrics.discharge(num);
         }
+        this.billing.discharging(getPatientInfo(num).getId());
     }
 
 

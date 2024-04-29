@@ -3,13 +3,15 @@ import java.util.ArrayList;
 public class Surgical {
     private ArrayList<String> request;
     private ArrayList<String> surgery;
+    private Billing billing;
 
     public Surgical() {
-
+        this.billing = new Billing();
     }
 
     public Surgical(String st) {
         this.request = new ArrayList<>();
+        this.billing = new Billing();
     }
 
     public void addRequest(int id, String input) {
@@ -27,8 +29,9 @@ public class Surgical {
         return null;
     }
 
-    public void addSurgery(String doctorNames, String patientId, String text) {
+    public void addSurgery(String doctorNames, String patientId, String text,int price) {
         this.surgery.add(doctorNames + "\n" + patientId + "\n" + text);
+        this.billing.getOperating(Integer.parseInt(patientId),price);
     }
 
     //متد واسه ارسال پیغام به پزشک

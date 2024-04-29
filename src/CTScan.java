@@ -39,6 +39,8 @@ public class CTScan extends Patient {
         fileWrite.write("image path" + history.size() +".png");
         //ذخیره عکسی که آدرسش توی خط بالا در پرونده ذخیره شد
         fileWrite.close();
+        Billing billing = new Billing();
+        billing.getTest(id,"CTScan");
         // اینجا نیازه که عکس سی تی اسکن ارسال بشه به پنل پزشک
     }
 

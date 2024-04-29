@@ -184,7 +184,7 @@ public class Patient {
         return newId;
     }
 
-    public void writerDetailsFile(int id) {
+    public void writerDetailsFile(int id,Patient patient) {
         try {
             File detailsFile =new File("details" + id+".txt");
             if (!detailsFile.exists()) {
@@ -195,7 +195,7 @@ public class Patient {
                 System.out.println();
             }
             FileWriter fileWriter = new FileWriter("details" + id+".txt");
-            fileWriter.write(toString());
+            fileWriter.write(patient.toString());
             fileWriter.close();
         } catch (IOException e) {
             throw new RuntimeException(e);

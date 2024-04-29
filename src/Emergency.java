@@ -50,8 +50,9 @@ public class Emergency extends Patient {
             System.out.println("There are no empty beds!");
         } else {
             beds.put(isEmptyBeds(), patient);
-            // توی خط پایین باید newId بدیم برای تشکیل پرونده
-            // super.writerDetailsFile(newId,patient);
+            super.writerDetailsFile(patient.getId(),patient);
+            Billing billing = new Billing();
+            billing.getEmergency(patient.getId());
         }
     }
 
@@ -112,6 +113,7 @@ public class Emergency extends Patient {
             return false;
         }
         Patient patient = beds.get(num);
+        Billing billing = new Billing();
         switch (newUnit) {
             case "Neurology":
                 Neurology neurology = new Neurology();
@@ -119,6 +121,7 @@ public class Emergency extends Patient {
                 neurology.addPatient(patient);
                 super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
                 beds.remove(num);
+                billing.changUnit(patient.getId(),"emergency",newUnit);
                 return true;
             case "ICU":
                 ICU icu = new ICU();
@@ -126,6 +129,7 @@ public class Emergency extends Patient {
                 icu.addPatient(patient);
                 super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
                 beds.remove(num);
+                billing.changUnit(patient.getId(),"emergency",newUnit);
                 return true;
             case "CCU":
                 CCU ccu = new CCU();
@@ -133,6 +137,7 @@ public class Emergency extends Patient {
                 ccu.addPatient(patient);
                 super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
                 beds.remove(num);
+                billing.changUnit(patient.getId(),"emergency",newUnit);
                 return true;
             case "NICU":
                 NICU nicu = new NICU();
@@ -140,6 +145,7 @@ public class Emergency extends Patient {
                 nicu.addPatient(patient);
                 super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
                 beds.remove(num);
+                billing.changUnit(patient.getId(),"emergency",newUnit);
                 return true;
             case "PICU":
                 PICU picu = new PICU();
@@ -147,6 +153,7 @@ public class Emergency extends Patient {
                 picu.addPatient(patient);
                 super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
                 beds.remove(num);
+                billing.changUnit(patient.getId(),"emergency",newUnit);
                 return true;
             case "Internal medicine" :
                 InternalMedicine internalMedicine = new InternalMedicine();
@@ -154,6 +161,7 @@ public class Emergency extends Patient {
                 internalMedicine.addPatient(patient);
                 super.writerReportFile(getPatientInformation(num).getId(),"the patient was transferred to unit " + newUnit);
                 beds.remove(num);
+                billing.changUnit(patient.getId(),"emergency",newUnit);
                 return true;
             case "Obstetrics" :
                 Obstetrics obstetrics = new Obstetrics();
@@ -161,6 +169,7 @@ public class Emergency extends Patient {
                 obstetrics.addPatient(patient);
                 super.writerReportFile(getPatientInformation(num).getId(),"the patient was transferred to unit " + newUnit);
                 beds.remove(num);
+                billing.changUnit(patient.getId(),"emergency",newUnit);
                 return true;
         }
         return false;

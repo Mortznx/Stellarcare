@@ -97,6 +97,7 @@ public class CCU extends Patient {
             return false;
         }
         Patient patient = new Patient();
+        Billing billing = new Billing();
         switch (newUnit) {
             case "Neurology":
                 Neurology neurology = new Neurology();
@@ -104,6 +105,7 @@ public class CCU extends Patient {
                 neurology.addPatient(patient);
                 super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
                 beds.remove(num);
+                billing.changUnit(patient.getId(),"CCU",newUnit);
                 return true;
             case "ICU":
                 ICU icu = new ICU();
@@ -111,6 +113,7 @@ public class CCU extends Patient {
                 icu.addPatient(patient);
                 super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
                 beds.remove(num);
+                billing.changUnit(patient.getId(),"CCU",newUnit);
                 return true;
             case "NICU":
                 NICU nicu = new NICU();
@@ -118,6 +121,7 @@ public class CCU extends Patient {
                 nicu.addPatient(patient);
                 super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
                 beds.remove(num);
+                billing.changUnit(patient.getId(),"CCU",newUnit);
                 return true;
             case "PICU":
                 PICU picu = new PICU();
@@ -125,6 +129,7 @@ public class CCU extends Patient {
                 picu.addPatient(patient);
                 super.writerReportFile(getPatientInformation(num).getId(), "the patient was transferred to unit " + newUnit);
                 beds.remove(num);
+                billing.changUnit(patient.getId(),"CCU",newUnit);
                 return true;
             case "Internal medicine" :
                 InternalMedicine internalMedicine = new InternalMedicine();
@@ -132,6 +137,7 @@ public class CCU extends Patient {
                 internalMedicine.addPatient(patient);
                 super.writerReportFile(getPatientInformation(num).getId(),"the patient was transferred to unit " + newUnit);
                 beds.remove(num);
+                billing.changUnit(patient.getId(),"CCU",newUnit);
                 return true;
             case "Obstetrics" :
                 Obstetrics obstetrics = new Obstetrics();
@@ -139,6 +145,7 @@ public class CCU extends Patient {
                 obstetrics.addPatient(patient);
                 super.writerReportFile(getPatientInformation(num).getId(),"the patient was transferred to unit " + newUnit);
                 beds.remove(num);
+                billing.changUnit(patient.getId(),"CCU",newUnit);
                 return true;
         }
         return false;
