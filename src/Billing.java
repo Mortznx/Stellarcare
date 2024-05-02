@@ -2,18 +2,25 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class Billing {
     private HashMap<String, Integer> prices;
     private HashMap<String,Integer> bill;
+    private static ArrayList<Integer> message;
 
     public Billing() {
     }
 
     public Billing(String st) {
         this.prices = new HashMap<>();
+        message = new ArrayList<>();
+    }
+
+    public void addMessage(int id) {
+        message.add(id);
     }
 
     public void changPrice(String option, int price) {

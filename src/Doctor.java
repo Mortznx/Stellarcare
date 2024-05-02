@@ -7,7 +7,7 @@ public class Doctor extends Patient {
     private String doctorName;
     private String unit;
     private int staffNumber;
-    private static ArrayList<String> messege;
+    private static ArrayList<Integer> messege;
     private static ArrayList<Integer> checking;
     private int bedNumber;
 
@@ -26,22 +26,22 @@ public class Doctor extends Patient {
     }
 
     public void startShift() {
-        sender.start();
+        this.sender.start();
     }
 
     public void endShift() {
-        sender.end();
+        this.sender.end();
         if (!checking.isEmpty()) {
-            sender.writeReport("the doctor ded not examine " + checking.size() + "bed");
+            this.sender.writeReport("the doctor ded not examine " + checking.size() + "bed");
         }
     }
 
     public void getInformation(int num) {
-        sender.getPatientInfo(num);
+        this.sender.getPatientInfo(num);
     }
 
     public String getReports(int num) {
-        sender.getPatientInfo(num);
+        this.sender.getPatientInfo(num);
         return readerReportFile(getId());
     }
 
@@ -56,25 +56,29 @@ public class Doctor extends Patient {
     }
 
     public void getCheckUpList() {
-        checking = sender.getCheckingList();
+        checking = this.sender.getCheckingList();
     }
 
     public void getCheck() {
         this.bedNumber = checking.get(0);
-        sender.getCheck(checking.get(0));
+        this.sender.getCheck(checking.get(0));
         checking.remove(0);
         String report = patient(bedNumber);    // حالا به تمام اطلاعات بیمار در سوپر کلاس دسترسی داریم
     }
 
     public void discharge() {
-        sender.discharge(this.bedNumber);
+        this.sender.discharge(this.bedNumber);
     }
 
     public boolean changUnit(int num, String newUnit) {
-        return sender.changUnit(num, newUnit);
+        return this.sender.changUnit(num, newUnit);
     }
 
     public void getTest(int num,String testName,String request) {
-        sender.getTest(num,testName,request);
+        this.sender.getTest(num,testName,request);
+    }
+
+    public void getOperating(int num,String text) {
+        this.sender.getOperating(num,text);
     }
 }
