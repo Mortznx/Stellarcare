@@ -128,6 +128,7 @@ public class Staff {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        return staff;
     }
 
     public String getStaffInformation(int staffID) {
