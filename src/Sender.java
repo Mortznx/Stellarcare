@@ -9,7 +9,6 @@ public class Sender {
     private int staffNumber;
     private String doctorName;
     private String unit;
-    private int id;
     private Doctor doctor;
     private Patient patient;
     private Emergency emergency;
@@ -25,12 +24,11 @@ public class Sender {
     private CTScan ctScan;
     private File file;
 
-    public Sender(int staffNumber,int unitNum, String doctorName, String unit, int id) {
+    public Sender(int staffNumber,int unitNum, String doctorName, String unit) {
         this.staffNumber = staffNumber;
         this.unitNum = unitNum;
         this.doctorName = doctorName;
         this.unit = unit;
-        this.id = id;
         this.patient = new Patient();
         this.emergency = new Emergency();
         this.neurology = new Neurology();
@@ -43,7 +41,7 @@ public class Sender {
         this.obstetrics = new Obstetrics();
         this.surgical = new Surgical();
         this.ctScan = new CTScan();
-        this.file = new File("doctor" + doctorName + unit + id);
+        this.file = new File("Staff" + staffNumber+".txt");
     }
 
     public Sender(String unitName, int grade) {
@@ -69,7 +67,7 @@ public class Sender {
             if (!file.exists()) {
                 file.createNewFile();
             }
-            FileWriter writer = new FileWriter("doctor" + this.doctorName + this.unit + this.id,true);
+            FileWriter writer = new FileWriter("Staff" + this.staffNumber + ".txt",true);
             writer.write(now() + text+"\n");
         } catch (IOException e) {
             e.printStackTrace();

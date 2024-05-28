@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 
-public class Emergency extends Patient {
+public class Emergency extends Patient implements Unit {
     private final static int countBed = 100;
     private static HashMap<Integer, Patient> beds;
     private ArrayList<Integer> morning = new ArrayList<>();
@@ -13,12 +13,12 @@ public class Emergency extends Patient {
     public Emergency() {
         super();
     }
-
     public Emergency(String st) {
         super();
         beds = new HashMap<>();
     }
 
+    @Override
     public int isEmptyBeds() {
         //اولین تخت خالی رو میگه و اگه تخت خالی نداشته باشیم -1 میده
         for (int i = 0; i < countBed; i++) {
@@ -31,19 +31,22 @@ public class Emergency extends Patient {
         return -1;
     }
 
+    @Override
     public int emptyBeds() {
         //تعداد تخت خالی
         return (countBed - beds.size());
     }
 
+    @Override
     public boolean isEmpty(int input) {
         return (beds.containsKey(input));
     }
 
+    @Override
     public Patient getPatientInformation(int num) {
         return beds.get(num);
     }
-
+    @Override
     public void addPatient(Patient patient) {
         //افزودن بیمار
         if (isEmptyBeds() == -1) {
@@ -67,6 +70,7 @@ public class Emergency extends Patient {
         }
     }
 
+    @Override
     public void changPatientBed(int from, int to) {
         //این متد توسط پرستار دسترسی داره ولی یه ایرادی داره که هنگام تغییر تخت باید توی لیست دکتر این تغییرات لحاظ شه
         //تعویض تخت بیمار
@@ -81,6 +85,7 @@ public class Emergency extends Patient {
         }
     }
 
+    @Override
     public void discharge(int num) {
         //خالی کردن تخت
         Date date = new Date();
@@ -93,6 +98,7 @@ public class Emergency extends Patient {
         }
     }
 
+    @Override
     public int searchPatient(String name) {
         for (int i = 0; i < countBed; i++) {
             if (beds.isEmpty())
@@ -107,6 +113,7 @@ public class Emergency extends Patient {
         return -1;
     }
 
+    @Override
     public boolean changeUnits(int num, String newUnit) {
         //انتقال بیمار به بخش دیگه
         if (!beds.containsKey(num)) {
@@ -182,6 +189,7 @@ public class Emergency extends Patient {
         }
     }*/
 
+    @Override
     public void getCheckUp() {
         //نیازه که هر 24 ساعت یکبار فراخوانی بشه
         CheckUp check = new CheckUp(beds);
@@ -191,6 +199,7 @@ public class Emergency extends Patient {
         this.night = check.checkUpList("night");
     }
 
+    @Override
     public ArrayList<Integer> getCheckUpList(String input) {
         //متدی که باید توسط کلاس دکتر فراخوانی بشه تا لیست بیمارانی که باید چک بکنه رو دریافت کنه
         switch (input) {
@@ -205,6 +214,7 @@ public class Emergency extends Patient {
         }
     }
 
+    @Override
     public ArrayList<Integer> sendCheckUpList() {
         Date date = new Date();
         short hour = (short) date.getHours();
@@ -218,6 +228,7 @@ public class Emergency extends Patient {
         return getCheckUpList(time);
     }
 
+    @Override
     public ArrayList<Integer> withOutCheckUpTime() {
         //بررسی میکنه که آیا بیماری هست که تعداد دفعات چک کردنش مشخص نشده باشه
         CheckUp checkUp = new CheckUp(beds);

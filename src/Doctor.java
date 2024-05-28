@@ -15,10 +15,10 @@ public class Doctor extends Patient {
         messege = new ArrayList<>();
     }
 
-    public Doctor(int staffNumber,int grade, String doctorName, String unit, int id) {
+    public Doctor(int staffID,int grade, String doctorName, String unit) {
         super();
-        this.sender = new Sender(staffNumber,grade, doctorName, unit, id);
-        this.staffNumber = staffNumber;
+        this.sender = new Sender(staffID,grade, doctorName, unit);
+        this.staffNumber = staffID;
         this.grade = grade;
         this.patientId = 0;
         this.doctorName = doctorName;
